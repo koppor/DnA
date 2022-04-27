@@ -1,0 +1,5 @@
+FROM dna/kfserving/xgbserver:v0.6.1
+
+USER 1000
+
+ENTRYPOINT ["python", "-m", "xgbserver"]
