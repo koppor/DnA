@@ -123,6 +123,6 @@ export const Envs = {
   STORAGE_TOU_HTML: getStorageInjectedEnv('TOU_HTML') || process.env.TOU_HTML,
   INTERNAL_USER_TEAMS_INFO:
     getInjectedEnv('INTERNAL_USER_TEAMS_INFO') !== undefined
-      ? getInjectedEnv('INTERNAL_USER_TEAMS_INFO')
+      ? getInjectedEnv('INTERNAL_USER_TEAMS_INFO') 
       : EnvParser.parseBool(process.env.INTERNAL_USER_TEAMS_INFO, false),
 };

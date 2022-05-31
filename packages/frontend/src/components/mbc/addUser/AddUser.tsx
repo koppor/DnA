@@ -35,7 +35,7 @@ export default class AddUser extends React.Component<IAddUserProps> {
         label={
           <>
             Find Collaborator<sup>*</sup>{' '}
-            <span dangerouslySetInnerHTML={{ __html: Envs.INTERNAL_USER_TEAMS_INFO }}></span>
+            <span dangerouslySetInnerHTML={{__html: Envs.INTERNAL_USER_TEAMS_INFO}}></span>
           </>
         }
         onAddTeamMember={this.addMemberFromTeamSearch}
