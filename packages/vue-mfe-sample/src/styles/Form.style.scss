@@ -1,0 +1,77 @@
+.mainPanel {
+    padding: 72px 184px 30px 114px;
+    .content {
+        background-color: #252a33;
+        padding: 0 0 0px 0px;
+        min-width: 518px;
+        .formGroup {
+            padding: 25px 38px;
+            .bucketNameInputField {
+                input:read-only {
+                    border: none;
+                    margin-left: -10px;
+                }
+            }
+            .infoIcon {
+                font-size: var(--font-size-icon-medium);
+                margin-left: 5px;
+                margin-top: -9px;
+                position: absolute;
+                right: 0;
+                i {
+                    cursor: pointer;
+                    color: #697582;
+
+                    &:hover {
+                        color: #00adef;
+                    }
+                }
+            }
+            .dataClassificationField {
+                margin-left: -12px;
+            }
+            .permissionField {
+                display: flex;
+                margin-left: -10px;
+                input[type="checkbox"]::after {
+                    border: none;
+                }
+            }
+            .pIIField {
+                margin-left: -12px;
+            }
+            .termsOfUseContainer {
+                display: flex;
+                flex-direction: column;
+                margin-top: 20px;
+                min-height: 56px;
+                .termsOfUseContent {
+                    display: flex;
+                    margin-left: -10px;
+                    .termsOfUseText {
+                        margin-top: auto;
+                        margin-bottom: auto;
+                        color: #c0c8d0;
+                        sup {
+                            float: right;
+                            top: -12px;
+                            right: -8px;
+                        }
+                    }
+                }
+            }
+        }
+        .submitBtn {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+    }
+}
+.flexLayout {
+    display: flex;
+    justify-content: space-between;
+    > div {
+        width: calc(50% - 30px);
+    }
+}

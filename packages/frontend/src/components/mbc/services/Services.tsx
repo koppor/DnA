@@ -110,6 +110,18 @@ const Services = () => {
             </div>
             <div className={Styles.EmptyCard}>&nbsp;</div>
           </div>
+          <div className={Styles.Workspaces}>
+            <div className={Styles.WorkspacesNavigation} onClick={() => history.push('/vueapp/')}>
+              <div className={Styles.WorkspacesNavigationVisual}></div>
+              <div className={Styles.WorkspacesNavigationTitle}>
+                <span> My Vue Sample</span>
+                <span>
+                  {' '}
+                  <i className="icon mbc-icon arrow small right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </React.Fragment>
