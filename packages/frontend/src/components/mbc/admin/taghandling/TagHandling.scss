@@ -126,3 +126,30 @@
     top: 50%;
   }
 }
+
+.viewChangeLogs {
+  margin-left: auto;
+}
+
+.changeLogsContent {
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+
+    li {
+      text-align: left;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      margin-bottom: 10px;
+      span {
+        cursor: pointer;
+        &:hover {
+          text-decoration: none;
+          color: #00adef;
+        }
+      }
+    }
+  }
+}

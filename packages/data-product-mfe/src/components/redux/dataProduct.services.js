@@ -5,7 +5,7 @@ export const GetDataProducts = createAsyncThunk('products/GetDataProducts', asyn
   // const res = await hostServer.get('');
   const res = [];
   const {
-    dataProducts: { pagination },
+    provideDataProducts: { pagination },
   } = getState(); // redux store method
   return {
     data: res,
@@ -15,7 +15,7 @@ export const GetDataProducts = createAsyncThunk('products/GetDataProducts', asyn
 
 export const SetDataProducts = createAsyncThunk('products/SetDataProducts', async (data, { getState }) => {
   const {
-    dataProducts: { pagination, dataProducts },
+    provideDataProducts: { pagination, dataProducts },
   } = getState();
 
   return await {

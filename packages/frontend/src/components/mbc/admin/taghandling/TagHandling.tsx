@@ -56,6 +56,7 @@ export interface ITagHandlingState {
   chips: string[];
   showTagsMissingError: boolean;
   isResultLoading: boolean;
+  viewChangeLogs: boolean;
 }
 
 export class TagHandling extends React.Component<any, ITagHandlingState> {
@@ -124,12 +125,18 @@ export class TagHandling extends React.Component<any, ITagHandlingState> {
         subdivisions: [],
       },
       isResultLoading: false,
+      viewChangeLogs: false,
     };
     ApiClient.getDropdownList('categories').then((dropdownList: any) => {
       dropdownList.data.push({ id: 8, name: 'Division' });
-      this.setState({
-        categories: this.state.categories.concat(dropdownList.data),
-      },()=>{SelectBox.defaultSetup();});
+      this.setState(
+        {
+          categories: this.state.categories.concat(dropdownList.data),
+        },
+        () => {
+          SelectBox.defaultSetup();
+        },
+      );
     });
   }
 
@@ -585,6 +592,12 @@ export class TagHandling extends React.Component<any, ITagHandlingState> {
     }
   };
 
+  protected onViewChangeLogs = () => {
+    this.setState((prev) => ({
+      viewChangeLogs: !prev.viewChangeLogs,
+    }));
+  };
+
   protected onTagUpdateItem = () => {
     const itemToUpdate = this.state.tagToBeUpdatedLocal;
     const data = {
@@ -772,6 +785,15 @@ export class TagHandling extends React.Component<any, ITagHandlingState> {
       </div>
     );
 
+    const divisionChangeLogsContent = (
+      <div className={classNames(Styles.changeLogsContent)}>
+        <ul>
+          <li>User 1 has updated division "RD" to "RDE"</li>
+          <li>User 2 has created a division "FMD"</li>
+        </ul>
+      </div>
+    );
+
     return (
       <div className={Styles.mainPanel}>
         <div className={Styles.wrapper}>
@@ -828,6 +850,18 @@ export class TagHandling extends React.Component<any, ITagHandlingState> {
                   </button>
                 </div>
               </div>
+            </div>
+            <div
+              className={classNames(
+                Styles.addItemButton,
+                Styles.viewChangeLogs,
+                this.state.isResultLoading ? Styles.disabledAddItemBtn : '',
+              )}
+            >
+              <button onClick={this.onViewChangeLogs}>
+                <i className="icon mbc-icon document" />
+                <span>View Division Change logs</span>
+              </button>
             </div>
           </div>
           {resultData.length === 0 ? (
@@ -904,6 +938,12 @@ export class TagHandling extends React.Component<any, ITagHandlingState> {
             show={this.state.addNewItem}
             content={contentForAddNewItem}
             onCancel={this.onAddItemModalCancel}
+          />
+          <InfoModal
+            title={'Division Change Logs'}
+            show={this.state.viewChangeLogs}
+            content={divisionChangeLogsContent}
+            onCancel={this.onViewChangeLogs}
           />
         </div>
       </div>
