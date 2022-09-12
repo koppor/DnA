@@ -424,7 +424,9 @@ definitions:
               "ClassificationAndConfidentiality",
               "IdentifyingPersonalRelatedData",
               "IdentifiyingTransnationalDataTransfer",
-              "SpecifyDeletionRequirements"
+              "IdentifyingDataOriginatingFromChina",
+              "SpecifyDeletionRequirements",
+              "SpecifyingRelevantInformation"
             ]  
             
   ConsumerVO:

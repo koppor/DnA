@@ -51,7 +51,6 @@ import com.daimler.data.db.jsonb.dataproduct.ProviderDeletionRequirement;
 import com.daimler.data.db.jsonb.dataproduct.ProviderPersonalRelatedData;
 import com.daimler.data.db.jsonb.dataproduct.ProviderTransnationalDataTransfer;
 import com.daimler.data.db.jsonb.dataproduct.Subdivision;
-import com.daimler.data.db.jsonb.dataproduct.TeamMember;
 import com.daimler.data.dto.datacompliance.CreatedByVO;
 import com.daimler.data.dto.dataproduct.ConsumerContactInformationVO;
 import com.daimler.data.dto.dataproduct.ConsumerPersonalRelatedDataVO;
@@ -65,8 +64,6 @@ import com.daimler.data.dto.dataproduct.ProviderPersonalRelatedDataVO;
 import com.daimler.data.dto.dataproduct.ProviderTransnationalDataTransferVO;
 import com.daimler.data.dto.dataproduct.ProviderVO;
 import com.daimler.data.dto.dataproduct.SubdivisionVO;
-import com.daimler.data.dto.dataproduct.TeamMemberVO;
-import com.daimler.data.dto.dataproduct.TeamMemberVO.UserTypeEnum;
 
 @Component
 public class DataProductAssembler implements GenericAssembler<DataProductVO, DataProductNsql> {
@@ -89,12 +86,6 @@ public class DataProductAssembler implements GenericAssembler<DataProductVO, Dat
 				BeanUtils.copyProperties(dataProduct.getModifiedBy(), updatedByVO);
 				vo.setModifiedBy(updatedByVO);
 			}
-			if (!ObjectUtils.isEmpty(dataProduct.getUsers())) {
-				List<TeamMemberVO> users = dataProduct.getUsers().stream().map(n -> toTeamMemberVO(n))
-						.collect(Collectors.toList());
-				vo.setUsers(users);
-			}
-
 			Provider provider = dataProduct.getProviderInformation();
 			if (provider != null) {
 				ProviderVO providerVO = new ProviderVO();
@@ -200,8 +191,6 @@ public class DataProductAssembler implements GenericAssembler<DataProductVO, Dat
 			DataProduct dataProduct = new DataProduct();
 			BeanUtils.copyProperties(vo, dataProduct);
 			dataProduct.setPublish(vo.isPublish());
-			dataProduct.setNotifyUsers(vo.isNotifyUsers());
-			dataProduct.setProviderFormSubmitted(vo.isProviderFormSubmitted());
 			if (Objects.nonNull(vo.getCreatedBy())) {
 				CreatedBy userDetails = new CreatedBy();
 				BeanUtils.copyProperties(vo.getCreatedBy(), userDetails);
@@ -212,12 +201,6 @@ public class DataProductAssembler implements GenericAssembler<DataProductVO, Dat
 				BeanUtils.copyProperties(vo.getModifiedBy(), userDetails);
 				dataProduct.setModifiedBy(userDetails);
 			}
-			if (!ObjectUtils.isEmpty(vo.getUsers())) {
-				List<TeamMember> users = vo.getUsers().stream().map(n -> toTeamMemberJson(n))
-						.collect(Collectors.toList());
-				dataProduct.setUsers(users);
-			}
-
 			ProviderVO providerVO = vo.getProviderInformation();
 			if (providerVO != null) {
 				Provider provider = new Provider();
