@@ -289,10 +289,3 @@ export const decimalSeparator = (region: string) => {
   else  
     return "."
 }
-
-export const csvSeparator = (region: string) => {
-  if(region.includes('de'))
-    return  ";" 
-  else  
-    return ","
-}

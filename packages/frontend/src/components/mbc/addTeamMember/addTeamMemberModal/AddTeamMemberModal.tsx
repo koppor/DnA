@@ -59,8 +59,6 @@ export interface IAddTeamMemberModalState {
   teamPositionError: string;
   isEmailValid: boolean;
   showUserAlreadyExistsError: boolean;
-  searchTerm: string;
-  showUserDetails: boolean;
 }
 
 export default class AddTeamMemberModal extends React.Component<IAddTeamMemberModalProps, IAddTeamMemberModalState> {
@@ -97,8 +95,6 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
       teamPositionError: null,
       isEmailValid: true,
       showUserAlreadyExistsError: false,
-      searchTerm: '',
-      showUserDetails: false,
     };
     this.validateMobile = this.validateMobile.bind(this);
     this.validateEmailID = this.validateEmailID.bind(this);
@@ -215,7 +211,7 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
               label={
                 <>
                   Find User<sup>*</sup>{' '}
-                  <span dangerouslySetInnerHTML={{ __html: Envs.INTERNAL_USER_TEAMS_INFO }}></span>
+                  <span dangerouslySetInnerHTML={{__html: Envs.INTERNAL_USER_TEAMS_INFO}}></span>
                 </>
               }
               editMode={this.props.editMode}
@@ -224,10 +220,6 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
               userAlreadyExists={showUserAlreadyExistsError}
               resetUserAlreadyExists={this.resetUserAlreadyExists}
               btnText="Save"
-              searchTerm={this.state.searchTerm}
-              setSearchTerm={(val) => this.setState({ searchTerm: val })}
-              showUserDetails={this.state.showUserDetails}
-              setShowUserDetails={(val) => this.setState({ showUserDetails: val })}
             />
           </div>
           <div className={!belongingInternal ? Styles.externalWrapper : 'hide'}>
@@ -487,7 +479,7 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
                 name="mobileNumber"
                 placeholder="+49123456"
                 autoComplete="off"
-                value={mobileNumber === 'null' ? '' : mobileNumber}
+                value={mobileNumber === "null" ? "" : mobileNumber}
                 maxLength={15}
                 onChange={this.validateMobile}
               />
@@ -680,7 +672,6 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
       const isDuplicate = this.props.validateMemebersList(teamMemberObj);
       if (isDuplicate) {
         this.setState({ showUserAlreadyExistsError: true });
-        setTimeout(this.resetUserAlreadyExists, 3500);
         formValid = false;
       }
     }
@@ -733,17 +724,7 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
         mobileNumber: '',
         teamMemberPosition: '',
       },
-      firstName: '',
-      lastName: '',
-      mobileNumber: '',
-      email: '',
-      company: '',
-      department: '',
-      shortID: '',
-      teamPosition: '',
-      showUserAlreadyExistsError: false,
-      searchTerm: '',
-      showUserDetails: false,
+      showNotFoundError: false,
     });
 
     InputFieldsUtils.resetErrors('#teamsModalDiv');
@@ -802,16 +783,16 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
   protected validateInternalTeamMemberFormForFoss = () => {
     let formValid = true;
     if (Envs.OIDC_PROVIDER === 'INTERNAL') {
-      if (this.props.hideTeamPosition) {
+      if(this.props.hideTeamPosition) {
         if (
           this.state.shortID === '' ||
           this.state.shortID === null ||
           this.state.company === '' ||
           this.state.company === null ||
-          this.state.company === 'null' ||
+          this.state.company === "null" ||
           this.state.department === '' ||
           this.state.department === null ||
-          this.state.department === 'null' ||
+          this.state.department === "null" ||
           this.state.firstName === '' ||
           this.state.firstName === null ||
           this.state.lastName === '' ||
@@ -820,7 +801,7 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
           this.state.email === null ||
           this.state.mobileNumber === '' ||
           this.state.mobileNumber === null ||
-          this.state.mobileNumber === 'null' ||
+          this.state.mobileNumber === "null" ||
           !this.state.isEmailValid
         ) {
           formValid = false;
@@ -833,10 +814,10 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
           this.state.shortID === null ||
           this.state.company === '' ||
           this.state.company === null ||
-          this.state.company === 'null' ||
+          this.state.company === "null" ||
           this.state.department === '' ||
           this.state.department === null ||
-          this.state.department === 'null' ||
+          this.state.department === "null" ||
           this.state.firstName === '' ||
           this.state.firstName === null ||
           this.state.lastName === '' ||
@@ -845,25 +826,25 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
           this.state.email === null ||
           this.state.mobileNumber === '' ||
           this.state.mobileNumber === null ||
-          this.state.mobileNumber === 'null' ||
+          this.state.mobileNumber === "null" ||
           !this.state.isEmailValid
         ) {
           formValid = false;
         }
       }
-
+      
       ['shortID', 'email', 'firstName', 'lastName', 'company', 'department', 'teamPosition', 'mobileNumber'].map(
         (field) => this.formFieldsErrorValidation(field),
       );
     } else {
-      if (this.props.hideTeamPosition) {
+      if(this.props.hideTeamPosition) {
         if (
           this.state.company === '' ||
           this.state.company === null ||
-          this.state.company === 'null' ||
+          this.state.company === "null" ||
           this.state.department === '' ||
           this.state.department === null ||
-          this.state.department === 'null' ||
+          this.state.department === "null" ||
           this.state.firstName === '' ||
           this.state.firstName === null ||
           this.state.lastName === '' ||
@@ -872,7 +853,7 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
           this.state.shortID === null ||
           this.state.mobileNumber === '' ||
           this.state.mobileNumber === null ||
-          this.state.mobileNumber === 'null' ||
+          this.state.mobileNumber === "null" ||
           !this.state.isEmailValid
         ) {
           formValid = false;
@@ -883,10 +864,10 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
           this.state.teamPosition === null ||
           this.state.company === '' ||
           this.state.company === null ||
-          this.state.company === 'null' ||
+          this.state.company === "null" ||
           this.state.department === '' ||
           this.state.department === null ||
-          this.state.department === 'null' ||
+          this.state.department === "null" ||
           this.state.firstName === '' ||
           this.state.firstName === null ||
           this.state.lastName === '' ||
@@ -895,13 +876,13 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
           this.state.shortID === null ||
           this.state.mobileNumber === '' ||
           this.state.mobileNumber === null ||
-          this.state.mobileNumber === 'null' ||
+          this.state.mobileNumber === "null" ||
           !this.state.isEmailValid
         ) {
           formValid = false;
         }
       }
-
+      
       ['shortID', 'teamPosition', 'company', 'department', 'firstName', 'lastName', 'mobileNumber'].map((field) =>
         this.formFieldsErrorValidation(field),
       );
@@ -956,7 +937,7 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
         break;
       case 'company':
         {
-          if (this.state.company === '' || this.state.company === null || this.state.company === 'null') {
+          if (this.state.company === '' || this.state.company === null || this.state.company === "null") {
             this.setState({ companyError: errorMissingEntry });
           } else {
             this.setState({ companyError: '' });
@@ -965,7 +946,7 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
         break;
       case 'department':
         {
-          if (this.state.department === '' || this.state.department === null || this.state.department === 'null') {
+          if (this.state.department === '' || this.state.department === null || this.state.department === "null") {
             this.setState({ departmentError: errorMissingEntry });
           } else {
             this.setState({ departmentError: '' });
@@ -983,11 +964,7 @@ export default class AddTeamMemberModal extends React.Component<IAddTeamMemberMo
         break;
       case 'mobileNumber':
         {
-          if (
-            this.state.mobileNumber === '' ||
-            this.state.mobileNumber === null ||
-            this.state.mobileNumber === 'null'
-          ) {
+          if (this.state.mobileNumber === '' || this.state.mobileNumber === null || this.state.mobileNumber === "null") {
             this.setState({ mobileNumberError: errorMissingEntry });
           } else {
             this.setState({ mobileNumberError: '' });

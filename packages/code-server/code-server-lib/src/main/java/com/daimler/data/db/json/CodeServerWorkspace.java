@@ -42,19 +42,14 @@ public class CodeServerWorkspace implements Serializable{
 	private static final long serialVersionUID = -1767843944100072529L;
 	
 	private String owner;
-	private String name;
+	private String workspaceName;
 	private String description;
 	private String recipeId;
 	private String password;
 	private Date intiatedOn;
 	private Date lastDeployedOn;
-	private String ramSize;
-	private String cpuCapacity;
-	private String operatingSystem;
+	private WorkspaceSettings settings;
 	private String environment;
 	private String cloudServiceProvider;
-	private String status;
-	private String deploymentUrl;
-	private String workspaceUrl;
 	
 }

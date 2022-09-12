@@ -15,7 +15,6 @@ import { history } from '../store';
 import ProgressIndicator from '../common/modules/uilab/js/src/progress-indicator';
 import SessionExpired from './SessionExpired';
 import DataProducts from './DataProducts';
-import Summary from './Summary';
 
 const protectedRoutes = [
   {
@@ -36,12 +35,7 @@ const protectedRoutes = [
   {
     component: ConsumerForm,
     exact: true,
-    path: '/consume/:id',
-  },
-  {
-    component: Summary,
-    exact: true,
-    path: '/summary/:id',
+    path: '/consume',
   },
 ];
 

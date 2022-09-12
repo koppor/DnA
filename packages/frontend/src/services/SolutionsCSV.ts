@@ -2,9 +2,7 @@ import { Data } from 'react-csv/components/CommonPropTypes';
 import { IAllSolutionsResultCSV, IDataSources, IFilterParams, IPhasesItem, IRolloutDetail } from '../globals/types';
 import { ApiClient } from './ApiClient';
 import { Envs } from '../globals/Envs';
-import { getDivisionsQueryValue, 
-  // regionalDateAndTimeConversionSolution 
-} from './utils';
+import { getDivisionsQueryValue } from './utils';
 
 export const getDataForCSV = (
   queryParams: IFilterParams,
@@ -168,8 +166,7 @@ export const getDataForCSV = (
       console.log(error.message);
     });
 
-  const isDigitalValueContributionEnabled = window.location.href.indexOf('digitalvaluecontribution') !== -1;
-  const isNotificationEnabled = window.location.href.indexOf('notebook') !== -1;
+
   ApiClient.exportDatatoCSV(
     locationIds,
     phaseIds,
@@ -182,8 +179,6 @@ export const getDataForCSV = (
     sortType,
     enablePortfolioSolutionsView,
     searchKey,
-    isDigitalValueContributionEnabled,
-    isNotificationEnabled
   ).then((resCSV) => {
     if (resCSV) {
       const solutionsCSV = resCSV.data
@@ -410,8 +405,6 @@ export const getDataForCSV = (
                 ? solution.digitalValue.permissions.map((team) => team.shortId).join('|')
                 : 'NA',
             createdBy: solution.createdBy ? solution.createdBy.id : 'NA',
-            // createdDate: solution.createdDate ? regionalDateAndTimeConversionSolution(solution.createdDate) : 'NA',
-            // lastModifiedDate: solution.lastModifiedDate ? regionalDateAndTimeConversionSolution(solution.lastModifiedDate) : 'NA',
             createdDate: solution.createdDate ? solution.createdDate : 'NA',
             lastModifiedDate: solution.lastModifiedDate ? solution.lastModifiedDate : 'NA',
           });

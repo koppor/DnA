@@ -5,7 +5,7 @@ export interface IIconAvatarNewProps {
   className?: string;
 }
 
-const IconAvatarNew = (props: IIconAvatarNewProps): JSX.Element => {
+export const IconAvatarNew = (props: IIconAvatarNewProps): JSX.Element => {
   return (
     <SvgIcon {...props} size="55">
       <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
@@ -26,5 +26,3 @@ const IconAvatarNew = (props: IIconAvatarNewProps): JSX.Element => {
     </SvgIcon>
   );
 };
-
-export default IconAvatarNew;

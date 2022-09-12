@@ -104,11 +104,7 @@ export const mapOpenSegments = {
   'classification-confidentiality': 'ClassificationAndConfidentiality',
   'personal-data': 'IdentifyingPersonalRelatedData',
   'trans-national-data-transfer': 'IdentifiyingTransnationalDataTransfer',
+  'data-originating-china': 'IdentifyingDataOriginatingFromChina',
   'deletion-requirements': 'SpecifyDeletionRequirements',
-};
-
-export const consumerOpenSegments = {
-  'provider-summary': 'Provider Summary',
-  'consumer-contact-info': 'ConsumerContactInformation',
-  'consumer-personal-data': 'ConsumerIdentifyingPersonalRelatedData',
+  'other-information': 'SpecifyingRelevantInformation',
 };

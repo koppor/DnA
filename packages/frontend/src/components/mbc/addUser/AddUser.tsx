@@ -18,22 +18,13 @@ export interface IAddUserProps {
   isRequired: boolean;
 }
 
-export interface IAddUserState {
-  searchTerm: string;
-  showUserDetails: boolean;
-}
-
 /**
  * Component to be used to add Users/Collaborators
  * @visibleName Add Userd
  */
-export default class AddUser extends React.Component<IAddUserProps, IAddUserState> {
+export default class AddUser extends React.Component<IAddUserProps> {
   constructor(props: any) {
     super(props);
-    this.state = {
-      searchTerm: '',
-      showUserDetails: false,
-    };
   }
 
   public componentDidMount() {
@@ -46,15 +37,11 @@ export default class AddUser extends React.Component<IAddUserProps, IAddUserStat
         label={
           <>
             Find Collaborator<sup>*</sup>{' '}
-            <span dangerouslySetInnerHTML={{ __html: Envs.INTERNAL_USER_TEAMS_INFO }}></span>
+            <span dangerouslySetInnerHTML={{__html: Envs.INTERNAL_USER_TEAMS_INFO}}></span>
           </>
         }
         onAddTeamMember={this.addMemberFromTeamSearch}
         btnText="Add User"
-        searchTerm={this.state.searchTerm}
-        setSearchTerm={(value) => this.setState({ searchTerm: value })}
-        showUserDetails={this.state.showUserDetails}
-        setShowUserDetails={(value) => this.setState({ showUserDetails: value })}
       />
     );
   }

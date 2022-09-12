@@ -67,7 +67,7 @@ paths:
 
   # Fetch all valid userinfo or by intent
   #
-  #  supported http methods GET, POST
+  #  supprorted http methods GET, POST and DELETE
   #
   # path example ../workspaces
 
@@ -75,14 +75,14 @@ paths:
     get:
       tags:
         - "code-server"
-      summary: "Get all codeServer workspaces for the user."
-      description:  "Get all codeServer workspaces for the user."
-      operationId: "getAll"
+      summary: "Get status of codeServer workbench intialization status for given user."
+      description:  "Get status of codeServer workbench intialization status for given user."
+      operationId: "pollUserWorkBenchStatus"
       responses:
         201:
           description: "Returns message of success or failure"
           schema:
-            $ref: "#/definitions/WorkspaceCollectionVO"
+            $ref: "#/definitions/GenericMessage"
         204:
           description: "Fetch complete, no content found."
         400:
@@ -100,20 +100,20 @@ paths:
       tags:
         - "code-server"
       summary: "Initialize/Create Workbench for user in code-server."
-      description: "Create workspace for user in code-server with given password"
-      operationId: "createWorkspace"
+      description: "Create Workbench for user in code-server with given password"
+      operationId: "initializeCodeServer"
       parameters:
         - name: "codeServerRequestVO"
           in: "body"
           description: "Request Body that contains data required for intialize code server workbench for user"
           required: true
           schema:
-            $ref: "#/definitions/InitializeWorkspaceRequestVO"
+            $ref: "#/definitions/InitializeCodeServerRequestVO"
       responses:
         201:
           description: "Returns message of success or failure "
           schema:
-            $ref: "#/definitions/InitializeWorkspaceResponseVO"
+            $ref: "#/definitions/GenericMessage"
         400:
           description: "Bad Request"
           schema:
@@ -127,199 +127,9 @@ paths:
         500:
           description: "Internal error"
     
-
-  # Fetch all valid userinfo or by intent
-  #
-  #  supported http methods GET, POST and DELETE
-  #
-  # path example ../workspaces/{id}
-
-  /workspaces/{id}:
-    get:
-      tags:
-        - "code-server"
-      summary: "Get workspace details for a given Id."
-      description: "Get workspace details for a given Id."
-      operationId: "getById"
-      parameters:
-        - name: "id"
-          in: "path"
-          description: "Workspace ID to be fetched"
-          required: true
-          type: "string"
-      responses:
-        200:
-          description: "Returns message of success or failure"
-          schema:
-            $ref: "#/definitions/CodeServerWorkspaceVO"
-        204:
-          description: "Fetch complete, no content found."
-        400:
-          description: "Bad request."
-        401:
-          description: "Request does not have sufficient credentials."
-        403:
-          description: "Request is not authorized."
-        405:
-          description: "Method not allowed"
-        500:
-          description: "Internal error"
-          
-    delete:
-      tags:
-        - "code-server"
-      summary: "Delete workspace for a given Id."
-      description: "Delete workspace for a given identifier."
-      operationId: "deleteWorkspace"
-      parameters:
-        - name: "id"
-          in: "path"
-          description: "Workspace ID to be deleted"
-          required: true
-          type: "string"
-      responses:
-        201:
-          description: "Returns message of success or failure"
-          schema:
-            $ref: "#/definitions/GenericMessage"
-        204:
-          description: "Fetch complete, no content found."
-        400:
-          description: "Bad request."
-        401:
-          description: "Request does not have sufficient credentials."
-        403:
-          description: "Request is not authorized."
-        405:
-          description: "Method not allowed"
-        500:
-          description: "Internal error"
-    
-  /workspaces/deploy/{id}:        
-    post:
-      tags:
-        - "code-server"
-      summary: "Deploy workspace Project for a given Id."
-      description: "Delete workspace Project for a given identifier."
-      operationId: "deployWorkspaceProject"
-      parameters:
-        - name: "id"
-          in: "path"
-          description: "Workspace ID for the project to be deployed"
-          required: true
-          type: "string"
-      responses:
-        201:
-          description: "Returns message of success or failure"
-          schema:
-            $ref: "#/definitions/GenericMessage"
-        204:
-          description: "Fetch complete, no content found."
-        400:
-          description: "Bad request."
-        401:
-          description: "Request does not have sufficient credentials."
-        403:
-          description: "Request is not authorized."
-        405:
-          description: "Method not allowed"
-        500:
-          description: "Internal error"
-          
-    delete:
-      tags:
-        - "code-server"
-      summary: "undeploy workspace project for a given Id."
-      description: "undeploy workspace project for a given identifier."
-      operationId: "undeployWorkspaceProject"
-      parameters:
-        - name: "id"
-          in: "path"
-          description: "Workspace ID for the project to be undeployed"
-          required: true
-          type: "string"
-      responses:
-        201:
-          description: "Returns message of success or failure"
-          schema:
-            $ref: "#/definitions/GenericMessage"
-        204:
-          description: "Fetch complete, no content found."
-        400:
-          description: "Bad request."
-        401:
-          description: "Request does not have sufficient credentials."
-        403:
-          description: "Request is not authorized."
-        405:
-          description: "Method not allowed"
-        500:
-          description: "Internal error"
-
-  # Fetch all valid userinfo or by intent
-  #
-  #  supported http methods GET, PUT
-  #
-  # path example ../workspaces/status/{name}
-
-  /workspaces/status/{name}/:
-    get:
-      tags:
-        - "code-server"
-      summary: "Get workspace details for a given Id."
-      description: "Get workspace details for a given Id."
-      operationId: "getByName"
-      parameters:
-        - name: "name"
-          in: "path"
-          description: "Workspace name to be fetched"
-          required: true
-          type: "string"
-      responses:
-        200:
-          description: "Returns message of success or failure"
-          schema:
-            $ref: "#/definitions/CodeServerWorkspaceVO"
-        204:
-          description: "Fetch complete, no content found."
-        400:
-          description: "Bad request."
-        401:
-          description: "Request does not have sufficient credentials."
-        403:
-          description: "Request is not authorized."
-        405:
-          description: "Method not allowed"
-        500:
-          description: "Internal error"
-          
+                    
 definitions:
 
-  WorkspaceCollectionVO:
-    type: object
-    properties:
-      totalCount:
-        type: integer
-        description: "Total Record Count"
-      records:
-        type: array
-        items:
-          $ref: "#/definitions/CodeServerWorkspaceVO"
-  
-  WorkspaceUpdateRequestVO:
-    type: object
-    properties:
-#      lastDeployedOn:
-#        type: string
-#        format: date
-#        description: "Date of last deployment"  
-      status:
-        type: string
-        enum: ["CREATED","CREATE_FAILED","DELETED","DELETE_FAILED","DEPLOYED","DEPLOYMENT_FAILED","UNDEPLOYED","UNDEPLOY_FAILED"]
-        description: "Status of workspace job action create/delete/deploy request"
-      required:
-        -status
-              
   CodeServerWorkspaceVO:
     type: object
     properties:
@@ -337,7 +147,6 @@ definitions:
         description: "User ID of the workspace owner"
       recipeId:
         type: string
-        enum: [default,microservice]
         description: "RecipeId of the workspace. Ex: Springboot Microservice"
       intiatedOn:
         type: string
@@ -347,12 +156,6 @@ definitions:
         type: string
         format: date
         description: "Date of last deployment"
-      deploymentUrl:
-        type: string
-        description: "URL of the project deployed"
-      workspaceUrl:
-        type: string
-        description: "Workspace url"
       environment:
         type: string
         enum: [Development, Test]    
@@ -376,11 +179,6 @@ definitions:
         type: string
         enum: [Debian-OS-11]
         description: "Operating system required"
-      status:
-        type: string
-        description: "Status of workspace - CREATE_REQUESTED,CREATED,CREATE_FAILED,DELETE_REQUESTED,DELETED,DELETE_FAILED,DEPLOY_REQUESTED,
-        DEPLOYED,DEPLOYMENT_FAILED,UNDEPLOY_REQUESTED,UNDEPLOYED,UNDEPLOY_FAILED"
-      
       required:
         -name
         -recipeId
@@ -422,23 +220,20 @@ definitions:
       required:
        - password     
        - data
-        
-  InitializeWorkspaceResponseVO:
+       
+         
+  InitializeCodeServerRequestVO:
     type: object
     properties:
-      data:
-        $ref: "#/definitions/CodeServerWorkspaceVO"
-      success:
+      recipeId:
         type: string
-      errors:
-        type: array
-        items:
-          $ref: "#/definitions/MessageDescription"
-      warnings:
-        type: array
-        items:
-          $ref: "#/definitions/MessageDescription"  
-          
+        description: "Recipe Id, which says, what kind of workbench to be loaded. Ex- empty,ms-springboot,dna"
+      password:
+        type: string
+        description: "Create Password, required to login to workbench of codeserver"
+    required:
+      - password
+      
   CreatedByVO:
     type: object
     properties:

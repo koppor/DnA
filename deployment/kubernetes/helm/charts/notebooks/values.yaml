@@ -41,7 +41,6 @@ app:
     prespawn_hook: ""
     enableUserNS: "False"
     userNameSpaceTemplate: kubeflow
-    vaultStorageAnnotations: ""
 
 ingress:
   enabled: true

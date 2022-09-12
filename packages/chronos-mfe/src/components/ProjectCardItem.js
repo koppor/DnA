@@ -10,7 +10,7 @@ import ConfirmModal from 'dna-container/ConfirmModal';
 const ProjectCardItem = ({
   project,
   onEdit,
-  history
+  // history
 }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -49,7 +49,7 @@ const ProjectCardItem = ({
         <div
           className={Styles.cardHead}
           onClick={() => {
-            history.push('/project');
+            /* navigate to summary page*/
           }}
         >
           <div className={Styles.cardHeadInfo}>

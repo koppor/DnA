@@ -5,7 +5,7 @@ type Query {
     report(string: ID):ReportVO
 }
 
-scalar ISODate
+scalar Date
 
 type ReportCollection{
    totalCount: Int,
@@ -15,9 +15,9 @@ type ReportCollection{
 type ReportVO {
 	id: ID!,
     productName: String,
-    createdDate: ISODate,
-    lastModifiedDate: ISODate,
-    closeDate: ISODate,
+    createdDate: String,
+    lastModifiedDate: String,
+    closeDate: String,
     createdBy:CreatedByVO,
     publish: Boolean,
     description: DescriptionVO,

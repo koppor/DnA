@@ -18,7 +18,6 @@ export interface IModalProps {
   onCancel?: () => void;
   modalWidth?: string;
   modalStyle?: React.CSSProperties;
-  footer?: React.ReactNode;
 }
 
 const Modal = (props: IModalProps) => {
@@ -54,36 +53,32 @@ const Modal = (props: IModalProps) => {
           {' '}
           {props.content}
         </div>
-        {props.footer ? (
-          <footer>{props.footer}</footer>
-        ) : (
-          <footer
-            className={
-              props.showAcceptButton || props.showCancelButton
-                ? props.buttonAlignment === 'center'
-                  ? 'footerCenter'
-                  : 'footerRight'
-                : Styles.hide
-            }
-          >
-            <div className="btn-set">
-              <button
-                className={props.showCancelButton ? 'btn btn-secondary' : `${Styles.hide}`}
-                type="button"
-                onClick={props.onCancel}
-              >
-                {props.cancelButtonTitle}
-              </button>
-              <button
-                className={props.showAcceptButton ? 'btn btn-primary' : `${Styles.hide}`}
-                type="submit"
-                onClick={props.onAccept}
-              >
-                {props.acceptButtonTitle}
-              </button>
-            </div>
-          </footer>
-        )}
+        <footer
+          className={
+            props.showAcceptButton || props.showCancelButton
+              ? props.buttonAlignment === 'center'
+                ? 'footerCenter'
+                : 'footerRight'
+              : Styles.hide
+          }
+        >
+          <div className="btn-set">
+            <button
+              className={props.showCancelButton ? 'btn btn-secondary' : `${Styles.hide}`}
+              type="button"
+              onClick={props.onCancel}
+            >
+              {props.cancelButtonTitle}
+            </button>
+            <button
+              className={props.showAcceptButton ? 'btn btn-primary' : `${Styles.hide}`}
+              type="submit"
+              onClick={props.onAccept}
+            >
+              {props.acceptButtonTitle}
+            </button>
+          </div>
+        </footer>
       </div>
     </div>
   );
