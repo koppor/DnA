@@ -44,17 +44,14 @@ import lombok.NoArgsConstructor;
 public class DataProduct {
 
 	private String dataProductName;
-	private ContactInformation contactInformation;
-	private ClassificationConfidentiality classificationConfidentiality;
-	private PersonalRelatedData personalRelatedData;
-	private TransnationalDataTransfer transnationalDataTransfer;
-	private boolean dataFromChina;
-	private DeletionRequirement deletionRequirement;
-	private String otherInformation;
+	private Provider providerInformation;
+	private Consumer consumerInformation;
 	private boolean publish;
+	private boolean providerFormSubmitted;
+	private boolean notifyUsers;
+	private List<TeamMember> users;
 	private Date createdDate;
 	private Date lastModifiedDate;
 	private CreatedBy createdBy;
 	private CreatedBy modifiedBy;
-	private List<String> openSegments;
 }
