@@ -392,6 +392,8 @@ public class WorkspaceController  implements CodeServerApi{
 			log.info("workspace {} already exists for User {} ",reqVO.getProjectDetails().getProjectName() , userId);
 			return new ResponseEntity<>(responseMessage, HttpStatus.CONFLICT);
 		}
+		//CSPR001
+		//if recipe type is public and no public url found in recipe details, return 400 bad request with valid message
 		currentUserVO.setGitUserName(reqVO.getGitUserName());
 		reqVO.setWorkspaceOwner(currentUserVO);
 		reqVO.setId(null);
