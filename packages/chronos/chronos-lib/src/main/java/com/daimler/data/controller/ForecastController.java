@@ -63,6 +63,10 @@ public class ForecastController implements ForecastRunsApi, ForecastProjectsApi,
 
 	@Value("${databricks.defaultConfigYml}")
 	private String defaultConfigFolderPath;
+	
+	@Value("${databricks.runsDefaultPageSize}")
+	private String runsDefaultPageSize;
+	
 	private static final String BUCKETS_PREFIX = "chronos-";
 	private static final String INPUT_FILE_PREFIX = "/inputs/";
 	private static final String CONFIG_PATH = "/objects?prefix=configs/";
@@ -754,7 +758,7 @@ public class ForecastController implements ForecastRunsApi, ForecastProjectsApi,
 			@ApiParam(value = "page size to limit the number of forecasts, Example 15") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
 
 		ForecastRunCollectionVO collection = new ForecastRunCollectionVO();
-		int defaultLimit = 10;
+		int defaultLimit = 15;// use this runsDefaultPageSize;
 		if (offset == null || offset < 0)
 			offset = 0;
 		if (limit == null || limit < 0) {

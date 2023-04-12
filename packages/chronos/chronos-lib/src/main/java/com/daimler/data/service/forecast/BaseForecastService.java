@@ -127,6 +127,33 @@ public class BaseForecastService extends BaseCommonService<ForecastVO, ForecastN
 		String resultFolder = bucketName+"/results/"+correlationId + "-" + runName;
 		String inputOrginalFolder= "/results/"+correlationId + "-" + runName + "/input_original";
 		FileUploadResponseDto fileUploadResponse =  null;
+		//chronos config file validation
+		boolean configValiation = false;
+		if(configurationFile!=null) {
+			try {
+			String[] splits = configurationFile.split("/");
+			if(splits!=null && splits.length>1) {
+				String configFilebucketName = splits[0];
+				if("chronos-core".equalsIgnoreCase(configFilebucketName) || bucketName.equalsIgnoreCase(configFilebucketName)) {
+					List<BucketObjectDetailsDto>  configFiles = storageClient.getFilesPresent(configFilebucketName, "/configs");
+					configValiation = storageClient.isFilePresent(splits[2], configFiles);
+				}
+			}
+			}catch(Exception e)	{
+				log.error("");
+			}
+		}
+		if(!configValiation) {
+			log.error("Failed while fetching config file {} for project name {} and id {} ",configurationFile, existingForecast.getName(), existingForecast.getId());
+			MessageDescription invalidMsg = new MessageDescription("Failed while fetching config file " + configurationFile);
+			List<MessageDescription> errors = new ArrayList<>();
+			errors.add(invalidMsg);
+			responseMessage.setErrors(errors);
+			responseWrapper.setData(null);
+			responseWrapper.setResponse(responseMessage);
+			return responseWrapper;	
+		}
+		//chronos config file validation
 		if(file!=null) {
 			fileUploadResponse = storageClient.uploadFile(inputOrginalFolder, file,existingForecast.getBucketName());
 		}else {
@@ -281,7 +308,12 @@ public class BaseForecastService extends BaseCommonService<ForecastVO, ForecastN
 				List<RunDetails> existingRuns = entity.getData().getRuns();
 				String bucketName = entity.getData().getBucketName();
 				String resultsPrefix = "results/";
-				for(RunDetails run: existingRuns) {
+				//limitchanges
+				List<RunDetails> newSubList = existingRuns.subList(offset, offset+limit);
+				if(limit==0)
+					newSubList = existingRuns;
+				for(RunDetails run: newSubList) {
+				//limitchanges	
 					RunState state = run.getRunState();
 					String runId = run.getRunId();
 					String correlationId= run.getId();
@@ -444,7 +476,21 @@ public class BaseForecastService extends BaseCommonService<ForecastVO, ForecastN
 						}
 					}
 				}
-				entity.getData().setRuns(updatedRuns);
+				List<RunDetails> updatedDbRunRecords = new ArrayList<>();
+				//limitchanges
+				if(limit!=0) {
+					for(RunDetails existingrunRecord: existingRuns) {
+						RunDetails updatedRecord = updatedRuns.stream().filter(x -> existingrunRecord.getId().equals(x.getId())).findAny().orElse(null); 
+						if(updatedRecord!=null) {
+							updatedDbRunRecords.add(updatedRecord);
+							//log
+						}
+						else
+							updatedDbRunRecords.add(existingrunRecord);
+					}
+				}
+				entity.getData().setRuns(updatedDbRunRecords);
+				//limitchanges
 				this.jpaRepo.save(entity);
 				updatedRunVOList = this.assembler.toRunsVO(updatedRuns);
 			}
