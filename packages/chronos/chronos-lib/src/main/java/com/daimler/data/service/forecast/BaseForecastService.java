@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 
+import com.daimler.data.dto.comparison.CreateComparisonResponseWrapperDto;
 import com.daimler.data.dto.forecast.*;
 
 import org.springframework.beans.BeanUtils;
@@ -945,7 +946,6 @@ public class BaseForecastService extends BaseCommonService<ForecastVO, ForecastN
 		ComparisonState comparisonState = new ComparisonState();
 		comparisonState.setLifeCycleState("CREATED");
 		comparisonState.setStateMessage("Accepted run comparison");
-
 		ComparisonStateVO state= new ComparisonStateVO();
 		state.setLifeCycleState(ComparisonStateVO.LifeCycleStateEnum.CREATED);
 		state.setStateMessage("Accepted run comparison");
@@ -1018,8 +1018,12 @@ public class BaseForecastService extends BaseCommonService<ForecastVO, ForecastN
 						//process 
 						//construct comaprision request dto from tempComparison
 						ChronosComparisonRequestDto comparisonRequestDto = new ChronosComparisonRequestDto();
-						//fill this dto 
-						//call chronoscomparisionclient.createcomparison. 
+						//fill this dto
+						//call chronoscomparisionclient.createcomparison.
+						comparisonRequestDto.setRuns_list(tempComparison.getRunsList());
+						comparisonRequestDto.setActuals_file(tempComparison.getActualsFile());
+						comparisonRequestDto.setTarget_folder(tempComparison.getTargetFolder());
+						CreateComparisonResponseWrapperDto createComparisonResponse = comparisonClient.createComparison(tempComparison.getComparisonName(),tempComparison.getTriggeredBy(),comparisonRequestDto);
 						//get the response -> state and message
 						
 						ComparisonState resultState = new ComparisonState();
@@ -1090,7 +1094,7 @@ public class BaseForecastService extends BaseCommonService<ForecastVO, ForecastN
 			newSubList = tempExistingComparisons.subList(offset, endLimit);
 			if (limit == 0)
 				newSubList = tempExistingComparisons;
-			forecastComparisonsVOList = this.assembler.toComparisonsVO(tempExistingComparisons);
+			forecastComparisonsVOList = this.assembler.toComparisonsVO(newSubList);
 			getForecastComparisonsArr[0] = forecastComparisonsVOList;
 			getForecastComparisonsArr[1] = totalCount;
 		}

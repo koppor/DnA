@@ -1389,11 +1389,11 @@ public class ForecastController implements ForecastRunsApi, ForecastProjectsApi,
 			@ApiParam(value = "forecast comparisons page size") @Valid @RequestParam(value = "limit", required = false) Integer limit)
 	{
 		int defaultLimit = Integer.parseInt(runsDefaultPageSize);
-//		if (offset == null || offset < 0)
-//			offset = 0;
-//		if (limit == null || limit < 0) {
-//			limit = defaultLimit;
-//		}
+		if (offset == null || offset < 0)
+			offset = 0;
+		if (limit == null || limit < 0) {
+			limit = defaultLimit;
+		}
 
 		ForecastComparisonsCollectionDto collection = new ForecastComparisonsCollectionDto();
 		ForecastVO existingForecast = service.getById(id);
@@ -1424,7 +1424,7 @@ public class ForecastController implements ForecastRunsApi, ForecastProjectsApi,
 			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
 //		service.getAllForecastComparisons(id);
-		Object[] getComparisonsResultsArr = service.getAllForecastComparisons(0,0,id);
+		Object[] getComparisonsResultsArr = service.getAllForecastComparisons(limit,offset,id);
 		List<ForecastComparisonVO> records = (List<ForecastComparisonVO>) getComparisonsResultsArr[0];
 		Integer totalCount = (Integer) getComparisonsResultsArr[1];
 		HttpStatus responseCode = HttpStatus.NO_CONTENT;

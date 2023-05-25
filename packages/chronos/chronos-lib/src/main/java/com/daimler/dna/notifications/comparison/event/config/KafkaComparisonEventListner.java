@@ -38,27 +38,27 @@ import org.springframework.stereotype.Service;
 import com.daimler.dna.notifications.common.event.config.GenericEventRecord;
 import com.daimler.dna.notifications.common.producer.KafkaDynamicProducerService;
 
-@Service
-public class KafkaComparisonEventListner {
-
-	private static Logger LOGGER = LoggerFactory.getLogger(KafkaComparisonEventListner.class);
-
-	@Autowired
-	private KafkaDynamicProducerService dynamicProducer;
-
-	@Value("${kafka.comparisonTopic.name}")
-	private String dnaChronosComparisonTopicName;
-
-	@Autowired
-	private ForecastService service;
-
-//	@KafkaListener(topics = "dnaChronosComparisonEventTopic")
-//	public void chronosComparisonTopicListnerToProcess(GenericEventRecord message) {
-//		if (message != null) {
-//			service.processForecastComparision(message.getResourceId(),message.getMessageDetails());
-//			//call forecastservice processcomparison (forecast id is resourceid from GenericEventRecord and comparision id is messageDetails from GenericEventRecord)
+//@Service
+//public class KafkaComparisonEventListner {
 //
-//		}
-//	}
-
-}
+//	private static Logger LOGGER = LoggerFactory.getLogger(KafkaComparisonEventListner.class);
+//
+//	@Autowired
+//	private KafkaDynamicProducerService dynamicProducer;
+//
+//	@Value("${kafka.comparisonTopic.name}")
+//	private String dnaChronosComparisonTopicName;
+//
+//	@Autowired
+//	private ForecastService service;
+//
+////	@KafkaListener(topics = "dnaChronosComparisonEventTopic")
+////	public void chronosComparisonTopicListnerToProcess(GenericEventRecord message) {
+////		if (message != null) {
+////			service.processForecastComparision(message.getResourceId(),message.getMessageDetails());
+////			//call forecastservice processcomparison (forecast id is resourceid from GenericEventRecord and comparision id is messageDetails from GenericEventRecord)
+////
+////		}
+////	}
+//
+//}

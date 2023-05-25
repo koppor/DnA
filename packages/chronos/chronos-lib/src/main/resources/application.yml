@@ -70,10 +70,10 @@ kafka:
     name: dnaComparisonTopic
 
 chronosComparison:
-  uri: baseUri
+  uri: ${CHRONOS_COMPARISON_BASE_URI:XXXXX}
 
 chronosMinio:
-  env: "dev"
+  env: ${CHRONOS_MINIO_ENVIRONMENT:DEV}
 
 
 databricks:
