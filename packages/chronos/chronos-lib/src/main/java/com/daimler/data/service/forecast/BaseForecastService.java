@@ -705,6 +705,7 @@ public class BaseForecastService extends BaseCommonService<ForecastVO, ForecastN
 	}
 
 	@Override
+	@Transactional
 	public GenericMessage generateApiKey(String id) {
 		GenericMessage responseMessage = new GenericMessage();
         List<MessageDescription> errors = new ArrayList<>();
