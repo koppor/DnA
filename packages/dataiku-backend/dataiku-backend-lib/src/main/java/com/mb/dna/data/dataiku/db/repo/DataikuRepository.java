@@ -24,4 +24,8 @@ public interface DataikuRepository {
 	
 	void updateSolutionForDataiku(String projectName, String cloudProfile, String solutionId);
 
+	public  Integer getNumberOfProjects();
+
+	public  Integer getNumberOfUsers();
+
 }

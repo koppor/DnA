@@ -121,8 +121,18 @@ public class DataikuServiceImpl implements DataikuService	{
 		responseWrapperDto.setData(null);
 		return responseWrapperDto;
 	}
-	
-	
+
+	@Override
+	public Integer getNumberOfProjects() {
+		return dataikuRepo.getNumberOfProjects();
+	}
+
+	@Override
+	public Integer getNumberOfUsers() {
+		return dataikuRepo.getNumberOfUsers();
+	}
+
+
 	@Override
 	@Transactional
 	public DataikuProjectResponseDto updateProject(String id,DataikuProjectUpdateRequestDto updateRequest, List<UserPrivilegeResponseDto> collabPrivilegeDetails) {

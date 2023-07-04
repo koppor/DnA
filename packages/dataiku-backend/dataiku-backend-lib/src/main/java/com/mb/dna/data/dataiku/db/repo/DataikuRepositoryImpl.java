@@ -227,7 +227,23 @@ public class DataikuRepositoryImpl implements DataikuRepository{
 		q.executeUpdate();
 		log.info("successfully updated solutionId {} for dataikuproject {}  at {} ",solutionId, projectName, cloudProfile);
 	}
-	
+
+	@Override
+	public Integer getNumberOfProjects() {
+		String query = "SELECT COUNT(project_name) AS project_name FROM dataiku_sql";
+		Query q = entityManager.createNativeQuery(query);
+		BigInteger result = (BigInteger) q.getSingleResult();
+		return result.intValue();
+	}
+
+	@Override
+	public Integer getNumberOfUsers() {
+		String query = "SELECT COUNT(DISTINCT(created_by)) AS created_by FROM dataiku_sql";
+		Query q = entityManager.createNativeQuery(query);
+		BigInteger result = (BigInteger) q.getSingleResult();
+		return result.intValue();
+	}
+
 	@Override
 	public void update(DataikuSql dataikuProject) {
 		if(dataikuProject!=null) {

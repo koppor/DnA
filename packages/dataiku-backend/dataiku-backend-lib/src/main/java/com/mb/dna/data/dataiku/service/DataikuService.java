@@ -28,4 +28,8 @@ public interface DataikuService {
 	
 	DataikuProjectResponseDto provisionSolutionToDataikuProject(String projectName, String cloudProfile,String solutionId);
 
+	public  Integer getNumberOfProjects();
+
+	public  Integer getNumberOfUsers();
+
 }

@@ -23,20 +23,12 @@ import com.mb.dna.data.api.controller.exceptions.GenericMessage;
 import com.mb.dna.data.api.controller.exceptions.MessageDescription;
 import com.mb.dna.data.application.adapter.dna.UserStore;
 import com.mb.dna.data.assembler.DataikuAssembler;
-import com.mb.dna.data.dataiku.api.dto.CollaboratorDetailsDto;
-import com.mb.dna.data.dataiku.api.dto.DataikuProjectCreateRequestDto;
-import com.mb.dna.data.dataiku.api.dto.DataikuProjectDto;
-import com.mb.dna.data.dataiku.api.dto.DataikuProjectProvisionSolutionRequestDto;
-import com.mb.dna.data.dataiku.api.dto.DataikuProjectResponseDto;
-import com.mb.dna.data.dataiku.api.dto.DataikuProjectSummaryCollectionDto;
-import com.mb.dna.data.dataiku.api.dto.DataikuProjectSummaryDetailResponseDto;
-import com.mb.dna.data.dataiku.api.dto.DataikuProjectSummaryDto;
-import com.mb.dna.data.dataiku.api.dto.DataikuProjectUpdateRequestDto;
-import com.mb.dna.data.dataiku.api.dto.DataikuProjectsCollectionDto;
+import com.mb.dna.data.dataiku.api.dto.*;
 import com.mb.dna.data.dataiku.service.DataikuService;
 import com.mb.dna.data.userprivilege.api.dto.UserPrivilegeResponseDto;
 import com.mb.dna.data.userprivilege.service.UserPrivilegeService;
 
+import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Patch;
@@ -485,8 +477,33 @@ public class DataikuController {
 		responseMsg = service.deleteById(id,existingDataikuProject);
 		return Response.ok().entity(responseMsg).build();
 	}
-	
-    
+
+
+
+	@GET
+	@Path("/dataiku/transparency")
+	@Operation(summary = "get dataiku project",
+			description = "get dataiku project details from the system")
+	@ApiResponse(responseCode = "200", description = "dataiku project fetched",
+			content = @Content(mediaType = "application/json"
+					,schema = @Schema(type="DataikuProjectSummaryDetailResponseDto")))
+	@ApiResponse(responseCode = "400", description = "Invalid id supplied")
+	@ApiResponse(responseCode = "404", description = "Record not found")
+	@Tag(name = "dataiku")
+	public TransparencyVO getCountOfUsersAndProjects() {
+		TransparencyVO transparencyVO = null;
+		try {
+			transparencyVO = new TransparencyVO();
+			Integer projectCount = service.getNumberOfProjects();
+			Integer userCount = service.getNumberOfUsers();
+			transparencyVO.setProjectCount(projectCount);
+			transparencyVO.setProjectCount(userCount);
+			return transparencyVO;
+		} catch (Exception e) {
+			return transparencyVO;
+		}
+
+	}
 	
 	
 	
