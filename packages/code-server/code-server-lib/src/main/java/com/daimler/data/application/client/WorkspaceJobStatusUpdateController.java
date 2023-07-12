@@ -49,8 +49,8 @@ public class WorkspaceJobStatusUpdateController  {
 	@Autowired
 	HttpServletRequest httpRequest;
 	
-	@Autowired
-	private UserStore userStore;
+	// @Autowired
+	// private UserStore userStore;
 	
 	@Autowired
 	private KafkaProducerService kafkaProducer;
@@ -123,8 +123,8 @@ public class WorkspaceJobStatusUpdateController  {
 			boolean invalidStatus = false;
 			String targetEnv = updateRequestVO.getTargetEnvironment();
 			String branch = updateRequestVO.getBranch();
-			CreatedByVO currentUser = this.userStore.getVO();
-			String userName = currentUserName(currentUser);			
+			// CreatedByVO currentUser = this.userStore.getVO();
+			// String userName = currentUserName(currentUser);			
 			UserInfoVO workspaceOwner = existingVO.getWorkspaceOwner();
 			String workspaceOwnerName = workspaceOwner.getFirstName() + " " + workspaceOwner.getLastName();	
 			String resourceID = existingVO.getWorkspaceId();
@@ -134,10 +134,12 @@ public class WorkspaceJobStatusUpdateController  {
 			teamMembers.add(projectOwner.getId());
 			teamMembers.add(projectOwner.getEmail());
 			List<UserInfoVO> projectCollaborators = existingVO.getProjectDetails().getProjectCollaborators();
+			if(projectCollaborators.size()>0) {
 			for(UserInfoVO collab : projectCollaborators) {
 				teamMembers.add(collab.getId());
 				teamMembersEmails.add(collab.getEmail());
 			}
+			}	
 			switch(existingStatus) {
 				case "CREATE_REQUESTED": 
 					if(!(latestStatus.equalsIgnoreCase("CREATED") || latestStatus.equalsIgnoreCase("CREATE_FAILED")))
