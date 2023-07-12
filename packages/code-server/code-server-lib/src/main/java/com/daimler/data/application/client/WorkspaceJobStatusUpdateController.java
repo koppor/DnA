@@ -148,11 +148,11 @@ public class WorkspaceJobStatusUpdateController  {
 						if(latestStatus.equalsIgnoreCase("CREATED")) {
 							eventType = "Codespace-Create";
 							log.info("Latest status is {}, and eventType is {}",latestStatus,eventType);
-							message = "Codespace "+ projectName + "successfully created by user " + userName;
+							message = "Codespace "+ projectName + "successfully created by user " + userId;
 						}														
 						else {
 							eventType = "Codespace-Create Failed";
-							message = "Create failed, while initializing Codespace " +projectName +" for user "+ userName;
+							message = "Create failed, while initializing Codespace " +projectName +" for user "+ userId;
 						}													 
 					}						
 					break;
