@@ -365,6 +365,7 @@ public class DnaMinioClientImp implements DnaMinioClient {
 
 				// Lists objects information.
 				LOGGER.debug("Listing Objects information from minio for user:{}", userId);
+//				Iterable<Result<Item>> results = minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).recursive(true).build());
 				Iterable<Result<Item>> results = minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).includeVersions(true).recursive(true).build());
 				for (Result<Item> result : results) {
 					Item item = result.get();
@@ -841,13 +842,14 @@ public class DnaMinioClientImp implements DnaMinioClient {
 					for (String path: prefixValue) {
 					    for (String objectName: objectNames) {
 							 if (objectName.contains(path)) {
+								 objects.add(new DeleteObject(objectName));
 								 // Fetch the versions for this object
-								 Iterable<Result<Item>> versions = minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).prefix(objectName).includeVersions(true).build());
-								 for (Result<Item> versionResult : versions) {
-									 Item versionItem = versionResult.get();
-									 // Add both the object name and version ID to delete this specific version.
-									 objects.add(new DeleteObject(objectName, versionItem.versionId()));
-								 }
+//								 Iterable<Result<Item>> versions = minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).prefix(objectName).includeVersions(true).build());
+//								 for (Result<Item> versionResult : versions) {
+//									 Item versionItem = versionResult.get();
+//									 // Add both the object name and version ID to delete this specific version.
+//									 objects.add(new DeleteObject(objectName, versionItem.versionId()));
+//								 }
 							 }
 					    }
                     }
@@ -855,7 +857,7 @@ public class DnaMinioClientImp implements DnaMinioClient {
 
 				LOGGER.info("Removing objects from Minio bucket:{}", bucketName);
 				Iterable<Result<DeleteError>> results = minioClient
-						.removeObjects(RemoveObjectsArgs.builder().bucket(bucketName).objects(objects).build());
+						.removeObjects(RemoveObjectsArgs.builder().bucket(bucketName).objects(objects).bypassGovernanceMode(true).build());
 
 				List<ErrorDTO> errors = new ArrayList<>();
 				for (Result<DeleteError> result : results) {
@@ -908,32 +910,32 @@ public class DnaMinioClientImp implements DnaMinioClient {
 						.build();
 
 				// Delete all object versions
-				Iterable<Result<Item>> results = minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).includeVersions(true).build());
-
-				// Prepare DeleteObjects to delete
-				List<DeleteObject> deleteObjects = new LinkedList<>();
-				for (Result<Item> result : results) {
-					Item item = result.get();
-					deleteObjects.add(new DeleteObject(item.objectName(), item.versionId()));
-				}
-
-				// Delete the objects and check for errors
-				Iterable<Result<DeleteError>> deleteResults = minioClient.removeObjects(RemoveObjectsArgs.builder().bucket(bucketName).objects(deleteObjects).build());
-				for (Result<DeleteError> result : deleteResults) {
-					DeleteError error = result.get();
-					LOGGER.error("Error deleting object: " + error.objectName() + ", version: "  + ", message: " + error.message());
-				}
-
-				// Check if bucket is empty before deleting
-				Iterable<Result<Item>> checkResults = minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).includeVersions(true).build());
-				if (!checkResults.iterator().hasNext()) {
-					// No objects or versions remain, safe to delete bucket
+//				Iterable<Result<Item>> results = minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).includeVersions(true).build());
+//
+//				// Prepare DeleteObjects to delete
+//				List<DeleteObject> deleteObjects = new LinkedList<>();
+//				for (Result<Item> result : results) {
+//					Item item = result.get();
+//					deleteObjects.add(new DeleteObject(item.objectName(), item.versionId()));
+//				}
+//
+//				// Delete the objects and check for errors
+//				Iterable<Result<DeleteError>> deleteResults = minioClient.removeObjects(RemoveObjectsArgs.builder().bucket(bucketName).objects(deleteObjects).build());
+//				for (Result<DeleteError> result : deleteResults) {
+//					DeleteError error = result.get();
+//					LOGGER.error("Error deleting object: " + error.objectName() + ", version: "  + ", message: " + error.message());
+//				}
+//
+//				// Check if bucket is empty before deleting
+//				Iterable<Result<Item>> checkResults = minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).includeVersions(true).build());
+//				if (!checkResults.iterator().hasNext()) {
+//					// No objects or versions remain, safe to delete bucket
 					LOGGER.info("Removing bucket:{} from Minio", bucketName);
 					minioClient.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
 					LOGGER.info("Success from Minio remove Bucket:{}", bucketName);
-				} else {
-					LOGGER.error("Objects or versions still remain in bucket, cannot delete.");
-				}
+//				} else {
+//					LOGGER.error("Objects or versions still remain in bucket, cannot delete.");
+//				}
 
 				LOGGER.info("Removing policies for bucket:{}", bucketName);
 				List<String> policies = Arrays.asList(bucketName + "_" + ConstantsUtility.READ, bucketName + "_" + ConstantsUtility.READWRITE);
